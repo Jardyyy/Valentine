@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For Danice ❤️</title>
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #ff9a9e, #ff7eb3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Card container */
+.card-container {
+    perspective: 1000px;
+}
+
+/* Card */
+.card {
+    width: 380px;
+    height: 500px;
+    position: relative;
+}
+
+/* Card faces */
+.card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 0, 85, 0.25);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    padding: 25px;
+}
+
+.card-face.active {
+    display: flex;
+}
+
+h1 {
+    margin-bottom: 15px;
+}
+
+p {
+    font-size: 1.1em;
+}
+
+/* Buttons */
+.buttons {
+    position: relative;
+    width: 100%;
+    height: 80px;
+}
+
+button {
+    border: none;
+    padding: 12px 25px;
+    font-size: 1.1em;
+    border-radius: 30px;
+    cursor: pointer;
+    position: absolute;
+    transition: 0.3s;
+}
+
+#yesBtn {
+    background: white;
+    color: #ff4d6d;
+    left: 50%;
+    transform: translateX(-120%);
+}
+
+#noBtn {
+    background: #ff4d6d;
+    color: white;
+    left: 50%;
+    transform: translateX(20%);
+}
+
+.nextBtn, .prevBtn {
+    position: static;
+    background: white;
+    color: #ff4d6d;
+    margin-top: 15px;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+button:hover {
+    transform: scale(1.1);
+}
+
+/* Photo grid (triangle layout) */
+.triangle-photos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.top-photo {
+    width: 220px;   /* Larger top photo */
+    height: 160px;
+    object-fit: cover;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.bottom-row {
+    display: flex;
+    gap: 10px;
+}
+
+.bottom-photo {
+    width: 140px;  /* Smaller bottom photos */
+    height: 100px;
+    object-fit: cover;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+</style>
+</head>
+<body>
+
+<div class="card-container">
+    <div class="card">
+
+        <!-- Page 1 -->
+        <div class="card-face active" id="page1">
+            <h1>Danice, will you be my Valentine? ❤️</h1>
+            <div class="buttons">
+                <button id="yesBtn" onclick="showPage(2)">Yes 💖</button>
+                <button id="noBtn" onclick="noClicked()" onmouseover="moveNo()">No 😢</button>
+            </div>
+        </div>
+
+        <!-- Page 2: Love message -->
+        <div class="card-face" id="page2">
+            <h1>Happy Valentine’s Day, Danice ❤️</h1>
+            <p>From Jared</p>
+            <p>“You make my world calmer and happier every day.”</p>
+            <p>I love you so much 💞</p>
+            <div>
+                <button class="prevBtn" onclick="showPage(1)">◀ Previous</button>
+                <button class="nextBtn" onclick="showPage(3)">Next ➜</button>
+            </div>
+        </div>
+
+        <!-- Page 3: Triangular photos -->
+        <div class="card-face" id="page3">
+            <h1>Our Memories ❤️</h1>
+            <div class="triangle-photos">
+                <img src="pics/us2.jpg" alt="Top photo" class="top-photo">
+                <div class="bottom-row">
+                    <img src="pics/us1.jpg" alt="Bottom left" class="bottom-photo">
+                    <img src="pics/us3.jpg" alt="Bottom right" class="bottom-photo">
+                </div>
+            </div>
+            <div>
+                <button class="prevBtn" onclick="showPage(2)">◀ Previous</button>
+                <button class="nextBtn" onclick="showPage(4)">Next ➜</button>
+            </div>
+        </div>
+
+        <!-- Page 4: Another sweet message -->
+        <div class="card-face" id="page4">
+            <h1>To My Love ❤️</h1>
+            <p>Every day with you is a gift.</p>
+            <p>You make me smile even on my worst days.</p>
+            <p>Thank you for being you 💖</p>
+            <button class="prevBtn" onclick="showPage(3)">◀ Previous</button>
+        </div>
+
+    </div>
+</div>
+
+<!-- Music -->
+<audio autoplay loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7c7b3c9a6f.mp3?filename=romantic-background-112194.mp3" type="audio/mp3">
+</audio>
+
+<script>
+let noClickCount = 0;
+
+const messages = [
+    "Are you sure? 😢",
+    "Really sure? 🥺",
+    "But I love you... 💔",
+    "Please? Just press Yes 💖",
+    "Last chance! 😭",
+    "Okay fine… just press Yes already 😳"
+];
+
+function showPage(pageNumber) {
+    document.querySelectorAll(".card-face").forEach(face => {
+        face.classList.remove("active");
+    });
+    document.getElementById("page" + pageNumber).classList.add("active");
+}
+
+function moveNo() {
+    const noBtn = document.getElementById("noBtn");
+    const container = document.querySelector(".buttons");
+
+    const maxX = container.clientWidth - noBtn.clientWidth;
+    const maxY = container.clientHeight - noBtn.clientHeight;
+
+    const randomX = Math.random() * maxX;
+    const randomY = Math.random() * maxY;
+
+    noBtn.style.left = randomX + "px";
+    noBtn.style.top = randomY + "px";
+}
+
+function noClicked() {
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+
+    if (noClickCount < messages.length) {
+        noBtn.innerText = messages[noClickCount];
+    }
+
+    let currentSize = window.getComputedStyle(yesBtn).fontSize;
+    let newSize = parseFloat(currentSize) + 4;
+    yesBtn.style.fontSize = newSize + "px";
+
+    noClickCount++;
+
+    if (noClickCount > messages.length) {
+        noBtn.style.display = "none";
+    }
+}
+</script>
+
+</body>
+</html>
